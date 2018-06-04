@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\TrickRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Repository\TrickRepository")
  */
 class Trick
 {
@@ -34,35 +34,35 @@ class Trick
     private $trickUpdate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\User", inversedBy="tricks")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="tricks")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Category", inversedBy="tricks")
      */
     private $category;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Video", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Video", mappedBy="trick")
      */
     private $videos;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Illustration", mappedBy="trick")
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Illustration", mappedBy="trick")
      */
     private $illustrations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="trick", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Comment", mappedBy="trick", orphanRemoval=true)
      */
     private $comments;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    private $trickSlug;
 
     public function __construct()
     {
@@ -230,14 +230,14 @@ class Trick
         return $this;
     }
 
-    public function getSlug(): ?string
+    public function getTrickSlug(): ?string
     {
-        return $this->slug;
+        return $this->trickSlug;
     }
 
-    public function setSlug(string $slug): self
+    public function setTrickSlug(string $trickSlug): self
     {
-        $this->slug = $slug;
+        $this->$trickSlug = $trickSlug;
 
         return $this;
     }

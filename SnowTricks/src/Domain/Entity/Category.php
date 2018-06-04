@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Repository\CategoryRepository")
  */
 class Category
 {
@@ -24,7 +24,7 @@ class Category
     private $categoryName;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Trick", mappedBy="category")
      */
     private $tricks;
 

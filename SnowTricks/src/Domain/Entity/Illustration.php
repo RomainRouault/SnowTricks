@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\IllustrationRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Repository\IllustrationRepository")
  */
 class Illustration
 {
@@ -32,7 +32,7 @@ class Illustration
     private $illustrationIsMain;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="illustrations")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="illustrations")
      */
     private $trick;
 

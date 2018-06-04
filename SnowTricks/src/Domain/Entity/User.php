@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Repository\UserRepository")
  */
 class User
 {
@@ -44,12 +44,12 @@ class User
     private $userConfirmed;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Trick", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Trick", mappedBy="user")
      */
     private $tricks;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Domain\Entity\Comment", mappedBy="user")
      */
     private $comments;
 

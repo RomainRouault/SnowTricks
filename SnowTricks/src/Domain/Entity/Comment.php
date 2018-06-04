@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CommentRepository")
+ * @ORM\Entity(repositoryClass="App\Domain\Repository\CommentRepository")
  */
 class Comment
 {
@@ -27,12 +27,12 @@ class Comment
     private $commentCreation;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\User", inversedBy="comments")
      */
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Trick", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="comments")
      * @ORM\JoinColumn(nullable=false)
      */
     private $trick;

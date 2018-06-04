@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Repository;
+namespace App\Domain\Repository;
 
-use App\Entity\Trick;
+use App\Domain\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
@@ -17,6 +17,14 @@ class TrickRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Trick::class);
+    }
+
+    public function getTrickList()
+    {
+        /** TO DO */
+        $trickList = array('title' =>'titre test', 'resume' => 'resume test');
+
+        return $trickList;
     }
 
 //    /**
