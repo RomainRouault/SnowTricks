@@ -22,7 +22,7 @@ class TrickRepository extends ServiceEntityRepository
     public function getTrickList()
     {
         /** TO DO */
-        $trickList = array('title' =>'titre test', 'resume' => 'resume test');
+        $trickList = array('title' => 'titre test', 'resume' => 'resume test');
 
         return $trickList;
     }
