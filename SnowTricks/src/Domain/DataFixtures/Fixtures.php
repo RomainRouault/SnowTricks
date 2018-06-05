@@ -19,10 +19,23 @@ class Fixtures extends Fixture
 
     public function load(ObjectManager $manager)
     {
-        // create 10 tricks
-        for ($i = 0; $i < 10; $i++) {
+        //create 5 users
+        for ($i = 0; $i < 5; $i++) {
+            $user = new User();
+            $user->('$user ' . $i);
+            $user->setTrickDescription('');
+            $user->setTrickCreation(new \DateTime(sprintf('-%d days', rand(1, 100))));
+
+            $trick->persist($trick);
+        }
+
+            // create 5 tricks
+        for ($i = 0; $i < 5; $i++) {
             $trick = new Trick();
             $trick->setTrickName('trick '.$i);
+            $trick->setTrickDescription('An awesome trick');
+            $trick->setTrickCreation(new \DateTime(sprintf('-%d days', rand(1, 100))));
+
             $trick->persist($trick);
         }
 
