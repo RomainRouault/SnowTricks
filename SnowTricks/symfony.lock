@@ -161,6 +161,9 @@
     "symfony/http-kernel": {
         "version": "v3.4.9"
     },
+    "symfony/inflector": {
+        "version": "v4.1.0"
+    },
     "symfony/lts": {
         "version": "v3"
     },
@@ -191,6 +194,9 @@
     "symfony/profiler-pack": {
         "version": "v1.0.3"
     },
+    "symfony/property-access": {
+        "version": "v4.1.0"
+    },
     "symfony/routing": {
         "version": "3.3",
         "recipe": {
@@ -199,6 +205,9 @@
             "version": "3.3",
             "ref": "a249484db698d1a847a30291c8f732414ac47e25"
         }
+    },
+    "symfony/security": {
+        "version": "v4.1.0"
     },
     "symfony/stopwatch": {
         "version": "v3.4.11"
