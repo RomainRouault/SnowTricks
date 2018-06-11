@@ -90,7 +90,7 @@ class User
 
     public function getUserPass(): ?string
     {
-        return $this->user�Pass;
+        return $this->userPass;
     }
 
     public function setUserPass(string $userPass): self

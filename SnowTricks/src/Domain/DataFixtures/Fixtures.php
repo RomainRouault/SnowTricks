@@ -13,7 +13,7 @@ use App\Domain\Entity\Trick;
 use App\Domain\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
-//use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 class Fixtures extends Fixture
@@ -21,10 +21,10 @@ class Fixtures extends Fixture
 
     private $encoder;
 
-    /*public function __construct(UserPasswordEncoderInterface $encoder)
+    public function __construct(UserPasswordEncoderInterface $encoder)
     {
         $this->encoder = $encoder;
-    }*/
+    }
 
     public function load(ObjectManager $manager)
     {
@@ -32,9 +32,12 @@ class Fixtures extends Fixture
         for ($i = 0; $i < 5; $i++) {
             //create 5 users
             $user = new User;
-            $user->setUserPseudo('User'. $i);
-            $user->setUserMail('User'. $i .'@mail.com');
-            $user->setUserPass();
+            $user->setUserPseudo('User' . $i);
+            $user->setUserMail('User' . $i . '@mail.com');
+            $password = $this->encoder->encodePassword($user, 'Pass' . $i);
+            $user->setUserPass($password);
+            $user->setUserPhoto();
+
             // create 5 tricks
             $trick = new Trick();
             $trick->setTrickName('Trick ' . $i);
