@@ -6,8 +6,15 @@
     <div class="example-wrapper">
 
         <ul>
-                <li>{{ trickList.title }}</li>
-                <li>{{ trickList.resume }}</li>
+                {% for trick in trickList %}
+                    <li><strong>Name :</strong>{{ trick.trickName }}</li>
+                    <li><strong>Description :</strong></strong>{{ trick.trickDescription }}</li>
+                    <li><strong>Creation :</strong>{{ trick.trickCreation|date('d-m-Y') }}</li>
+                    <!--li><strong>Author :</strong> trick.user </li>
+                    <li><strong>Category :</strong> trick.category </li>
+                    <li><strong>Comment :</strong> trick.comments </li!-->
+                    <br/>
+                {% endfor %}
         </ul>
     </div>
 {% endblock %}
