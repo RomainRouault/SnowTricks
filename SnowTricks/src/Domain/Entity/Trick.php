@@ -238,7 +238,7 @@ class Trick
 
     public function setTrickName(string $trickName): self
     {
-        $this->$trickName = $trickName;
+        $this->trickName = $trickName;
 
         return $this;
     }
