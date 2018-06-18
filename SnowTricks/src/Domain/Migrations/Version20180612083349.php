@@ -12,9 +12,10 @@ final class Version20180612083349 extends AbstractMigration
 {
     public function up(Schema $schema) : void
     {
-        // this up() migration is auto-generated, please modify it to your needs
+        // this up() migration is auto-generated, please modify it to your need
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'mysql', 'Migration can only be executed safely on \'mysql\'.');
 
+        $this->addSql('START TRANSACTION');
         $this->addSql('ALTER TABLE comment DROP FOREIGN KEY FK_9474526CA76ED395');
         $this->addSql('ALTER TABLE trick DROP FOREIGN KEY FK_D8F0A91EA76ED395');
         $this->addSql('DROP TABLE user');
@@ -22,6 +23,7 @@ final class Version20180612083349 extends AbstractMigration
         $this->addSql('DROP TABLE user');
         $this->addSql('ALTER TABLE comment ADD CONSTRAINT FK_9474526CA76ED395 FOREIGN KEY (user_id) REFERENCES app_users (id)');
         $this->addSql('ALTER TABLE trick ADD CONSTRAINT FK_D8F0A91EA76ED395 FOREIGN KEY (user_id) REFERENCES app_users (id)');
+        $this->addSql('COMMIT');
     }
 
     public function down(Schema $schema) : void

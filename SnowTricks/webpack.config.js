@@ -11,14 +11,20 @@ Encore
     // .enableVersioning(Encore.isProduction())
 
     // uncomment to define the assets of the project
-    // .addEntry('js/app', './assets/js/app.js')
-    // .addStyleEntry('css/app', './assets/css/app.scss')
+    .addStyleEntry('css/app', './assets/js/app-style.js')
+    .addEntry('js/app', './assets/js/app-js.js')
 
-    // uncomment if you use Sass/SCSS files
-    // .enableSassLoader()
+    .enableSassLoader()
 
     // uncomment for legacy applications that require $/jQuery as a global variable
-    // .autoProvidejQuery()
+    .autoProvidejQuery()
+
+    // disable UrlResolver in order to fix slowdown of the webpack build caused by Bootstrap import
+    .enableSassLoader(function(sassOptions) {}, {
+        resolveUrlLoader: false
+    })
+
+    .enableBuildNotifications()
 ;
 
 module.exports = Encore.getWebpackConfig();
