@@ -25,7 +25,6 @@ class TrickList
      */
     public function __invoke(): Response
     {
-        $trickList = $this->trickRepository->getTrickList();
-        return $this->trickResponder->trickListView($trickList);
+        return $this->trickResponder->trickListView($this->trickRepository->getTrickList());
     }
 }

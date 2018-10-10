@@ -1,13 +1,20 @@
 security:
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
+        user_provider:
+            entity:
+                class: App\Domain\Entity\User
+                property: userPseudo
+
         in_memory: { memory: ~ }
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
-
+            pattern:    ^/
+            http_basic: ~
+            provider: user_provider
             anonymous: true
             # activate different ways to authenticate
 
