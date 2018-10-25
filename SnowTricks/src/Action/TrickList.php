@@ -2,13 +2,13 @@
 
 namespace App\Action;
 
-use App\Domain\Repository\TrickRepository;
-use App\Responder\TrickResponder;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Response;
+    use App\Domain\Repository\TrickRepository;
+    use App\Responder\TrickResponder;
+    use Symfony\Component\Routing\Annotation\Route;
+    use Symfony\Component\HttpFoundation\Response;
 
 
-class TrickList
+    class TrickList
 {
     private $trickResponder;
     private $trickRepository;
@@ -25,6 +25,7 @@ class TrickList
      */
     public function __invoke(): Response
     {
-        return $this->trickResponder->trickListView($this->trickRepository->getTrickList());
+        $trickList = $this->trickRepository->getTrickList();
+        return $this->trickResponder->trickListView($trickList);
     }
 }

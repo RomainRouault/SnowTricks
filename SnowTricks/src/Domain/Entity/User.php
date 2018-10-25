@@ -5,13 +5,11 @@ namespace App\Domain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Domain\Repository\UserRepository")
  */
-class User implements UserInterface, \Serializable
+class User
 {
     /**
      * @ORM\Id()
@@ -66,7 +64,7 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getUserPseudo(): ?string
     {
         return $this->userPseudo;
     }
@@ -90,9 +88,9 @@ class User implements UserInterface, \Serializable
         return $this;
     }
 
-    public function getPassword(): ?string
+    public function getUserPass(): ?string
     {
-        return $this->userPass;
+        return $this->user�Pass;
     }
 
     public function setUserPass(string $userPass): self
@@ -186,39 +184,5 @@ class User implements UserInterface, \Serializable
         }
 
         return $this;
-    }
-
-    public function getRoles()
-    {
-        return array('ROLE_USER');
-    }
-
-    public function getSalt()
-    {
-        return null;
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    /** @see \Serializable::serialize() */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->userPseudo,
-            $this->userPass,
-        ));
-    }
-
-    /** @see \Serializable::unserialize() */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->userPseudo,
-            $this->userPass,
-            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

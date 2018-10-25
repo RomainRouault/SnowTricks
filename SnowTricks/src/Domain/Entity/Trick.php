@@ -19,11 +19,6 @@ class Trick
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $trickName;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $trickDescription;
@@ -64,6 +59,10 @@ class Trick
      */
     private $comments;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $trickSlug;
 
     public function __construct()
     {
@@ -231,14 +230,14 @@ class Trick
         return $this;
     }
 
-    public function getTrickName(): ?string
+    public function getTrickSlug(): ?string
     {
-        return $this->trickName;
+        return $this->trickSlug;
     }
 
-    public function setTrickName(string $trickName): self
+    public function setTrickSlug(string $trickSlug): self
     {
-        $this->trickName = $trickName;
+        $this->$trickSlug = $trickSlug;
 
         return $this;
     }

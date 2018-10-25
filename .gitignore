@@ -23,3 +23,5 @@ $RECYCLE.BIN/
 # =========================
 
 *.idea
+
+node_modules
