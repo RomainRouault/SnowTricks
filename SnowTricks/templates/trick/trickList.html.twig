@@ -3,11 +3,25 @@
 
 {% block body %}
 
+    {% include '_menu.html.twig' %}
+
     <div class="example-wrapper">
 
         <ul>
-                <li>{{ trickList.title }}</li>
-                <li>{{ trickList.resume }}</li>
+                {% for trick in trickList %}
+                    <li><strong>Name :</strong>{{ trick.trickName }}</li>
+                    <li><strong>Description :</strong>{{ trick.trickDescription }}</li>
+                    <li><strong>Creation :</strong>{{ trick.trickCreation|date('d-m-Y') }}</li>
+                    <li><strong>Author :</strong> {{ trick.user.Username }}</li>
+                    <li><strong>Category :</strong> {{ trick.category.categoryName }} </li>
+                    {% for comment in trick.comments %}
+                            <li><strong>Comment :</strong>
+                                {{ comment.commentContent }}
+                            </li>
+                    {% endfor %}
+                    <br/>
+                {% endfor %}
         </ul>
     </div>
+
 {% endblock %}

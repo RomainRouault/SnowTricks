@@ -1,0 +1,8 @@
+<body>
+<h2 style="padding: 10px"><strong>Confirmation email</strong></h2>
+<div>
+    <p>{{ userName|capitalize }}, nous sommes heureux de te compter dans notre communauté de passionés!</p>
+    <p>Il te reste une dernière étape avant de devenir un membre actif de SnowTricks; clique sur le lien suivant : <a href="{{ url('InscriptionConfirmation', {'token': token}) }}">pour confirmer ton adresse email</a></p>
+    <p><strong>L'équipe SnowTricks</strong></p>
+</div>
+</body>

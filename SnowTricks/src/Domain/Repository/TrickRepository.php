@@ -19,12 +19,11 @@ class TrickRepository extends ServiceEntityRepository
         parent::__construct($registry, Trick::class);
     }
 
-    public function getTrickList()
+    public function getTrickList() : array
     {
-        /** TO DO */
-        $trickList = array('title' =>'titre test', 'resume' => 'resume test');
+       return $this->findAll();
 
-        return $trickList;
+        /** TO DO */
     }
 
 //    /**

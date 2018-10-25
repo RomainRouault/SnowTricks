@@ -5,12 +5,24 @@ namespace App\Domain\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 /**
+ * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Domain\Repository\UserRepository")
+ * @UniqueEntity(
+ *     "userMail",
+ *     message="Cette adresse email est déjà utilisée")
  */
-class User
+class User implements UserInterface, \Serializable
 {
+    const STATUS_DISABLED = false;
+    const STATUS_ENABLED = true;
+    const DEFAULT_PIC = "default-profil.jpg";
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -19,12 +31,15 @@ class User
     private $id;
 
     /**
+     * @Assert\NotBlank(message="Merci de compléter ce champ")
      * @ORM\Column(type="string", length=255)
      */
     private $userPseudo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Merci de compléter ce champ")
+     * @Assert\Email(message="L'adresse email {{ value }} n'est pas valide")
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $userMail;
 
@@ -34,14 +49,26 @@ class User
     private $userPass;
 
     /**
+     * @Assert\NotBlank(message="Merci de compléter ce champ")
+     * @Assert\Length(min=8, minMessage="La longueur de votre mot de passe doit être d'au moins {{ limit }} caractères.", max=4096, maxMessage="La longueur de votre mot de passe ne peut pas excéder {{ limit }} caractères.")
+     */
+    private $plainPassword;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
-    private $userPhoto;
+    private $userPhoto = self::DEFAULT_PIC;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $userConfirmed;
+    private $userConfirmed = self::STATUS_DISABLED;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $token;
+
 
     /**
      * @ORM\OneToMany(targetEntity="App\Domain\Entity\Trick", mappedBy="user")
@@ -52,6 +79,7 @@ class User
      * @ORM\OneToMany(targetEntity="App\Domain\Entity\Comment", mappedBy="user")
      */
     private $comments;
+
 
     public function __construct()
     {
@@ -64,33 +92,33 @@ class User
         return $this->id;
     }
 
-    public function getUserPseudo(): ?string
+    public function getUsername(): ?string
     {
         return $this->userPseudo;
     }
 
-    public function setUserPseudo(string $userPseudo): self
+    public function setUsername(string $userPseudo): self
     {
         $this->userPseudo = $userPseudo;
 
         return $this;
     }
 
-    public function getUserMail(): ?string
+    public function getEmail(): ?string
     {
         return $this->userMail;
     }
 
-    public function setUserMail(string $userMail): self
+    public function setEmail(string $userMail): self
     {
         $this->userMail = $userMail;
 
         return $this;
     }
 
-    public function getUserPass(): ?string
+    public function getPassword(): ?string
     {
-        return $this->user�Pass;
+        return $this->userPass;
     }
 
     public function setUserPass(string $userPass): self
@@ -98,6 +126,16 @@ class User
         $this->userPass = $userPass;
 
         return $this;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password)
+    {
+        $this->plainPassword = $password;
     }
 
     public function getUserPhoto(): ?string
@@ -117,12 +155,36 @@ class User
         return $this->userConfirmed;
     }
 
-    public function setUserConfirmed(bool $userConfirmed): self
+    public function setUserConfirmed(bool $userConfirmed = false): self
     {
         $this->userConfirmed = $userConfirmed;
 
         return $this;
     }
+
+    /**
+     * Set a trick
+     */
+
+    public function getToken(): ?string
+    {
+        return $this->token;
+
+    }
+
+    public function setToken($token)
+    {
+
+        $this->token = $token;
+    }
+
+    public function initiateToken()
+    {
+        $token = bin2hex(random_bytes(32));
+
+        $this->token = $token;
+    }
+
 
     /**
      * @return Collection|Trick[]
@@ -184,5 +246,39 @@ class User
         }
 
         return $this;
+    }
+
+    public function getRoles()
+    {
+        return array('ROLE_USER');
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function eraseCredentials()
+    {
+    }
+
+    /** @see \Serializable::serialize() */
+    public function serialize()
+    {
+        return serialize(array(
+            $this->id,
+            $this->userPseudo,
+            $this->userPass,
+        ));
+    }
+
+    /** @see \Serializable::unserialize() */
+    public function unserialize($serialized)
+    {
+        list (
+            $this->id,
+            $this->userPseudo,
+            $this->userPass,
+            ) = unserialize($serialized, ['allowed_classes' => false]);
     }
 }

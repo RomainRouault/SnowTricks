@@ -4,7 +4,9 @@ namespace App\Domain\Repository;
 
 use App\Domain\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -17,6 +19,27 @@ class UserRepository extends ServiceEntityRepository
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, User::class);
+    }
+
+    /*
+     * throws ORMexceptions
+     */
+    public function persistUser(User $user): void
+    {
+            $entityManager = $this->getEntityManager();
+            try
+            {
+                $entityManager->persist($user);
+                $entityManager->flush();
+            }
+            catch(DBALException $e)
+            {
+                $errorMessage = $e->getMessage();
+            }
+            catch(\Exception $e)
+            {
+                $errorMessage = $e->getMessage();
+            }
     }
 
 //    /**
@@ -36,15 +59,24 @@ class UserRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?User
+    public function findOneBySomeField($field, $value): ?User
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        try
+        {
+            return $this->createQueryBuilder('u')
+                ->andWhere('u.' . $field . ' = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+        catch(DBALException $e)
+                {
+                    $errorMessage = $e->getMessage();
+                }
+                catch(\Exception $e)
+                {
+                    $errorMessage = $e->getMessage();
+                }
+
     }
-    */
 }
