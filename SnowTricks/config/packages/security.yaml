@@ -16,6 +16,16 @@ security:
             http_basic: ~
             provider: user_provider
             anonymous: true
+            guard:
+                authenticators:
+                    - App\Domain\Form\FormHandler\LoginHandler
+            remember_me:
+                secret:   '%kernel.secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+            logout:
+                  path:   logout
+
             # activate different ways to authenticate
 
             # http_basic: true

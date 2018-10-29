@@ -51,4 +51,18 @@ class AuthentificationResponder extends Responder
         return $http_response_header;
     }
 
+    Public function login($lastUsername, $error)
+    {
+        try
+        {
+            return New Response($this->twig->render('authentification/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]));
+        }
+
+        catch(\Exception $e)
+        {
+            $errorMessage = $e->getMessage();
+        }
+
+    }
+
 }
