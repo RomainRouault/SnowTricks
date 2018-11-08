@@ -14,8 +14,7 @@
     <label for="inputPassword" class="sr-only">Password</label>
     <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"
     >
 
         <div class="checkbox mb-3">
@@ -28,4 +27,6 @@
         Sign in
     </button>
 </form>
+
+    <a href="{{ path ('forgotPassword')}}">Mot de passe oublié?</a>
 {% endblock %}

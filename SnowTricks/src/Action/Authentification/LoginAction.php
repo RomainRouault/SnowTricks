@@ -11,24 +11,18 @@ use App\Responder\AuthentificationResponder;
 
 class LoginAction
 {
-    private $authentificationResponder;
-
-    public function __construct(AuthentificationResponder $authentificationResponder)
-    {
-        $this->authentificationResponder = $authentificationResponder;
-    }
 
     /**
      * @Route("/login", name="login")
      */
-    public function __invoke(AuthenticationUtils $authenticationUtils): Response
+    public function __invoke(AuthenticationUtils $authenticationUtils, AuthentificationResponder $authentificationResponder): Response
     {
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->authentificationResponder->login($lastUsername, $error);
+        return $authentificationResponder->login($lastUsername, $error);
     }
 
 }

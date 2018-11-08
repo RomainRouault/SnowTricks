@@ -19,16 +19,16 @@ class InscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailType::class, array(
+            ->add('userMail', EmailType::class, array(
                 'label' => 'Email'
             ))
-            ->add('username', TextType::class, array(
+            ->add('userName', TextType::class, array(
                 'label' => 'Pseudonyme'
             ))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
-                'first_options'  => array('label' => 'Password'),
-                'second_options' => array('label' => 'Repeat Password'),
+                'first_options'  => array('label' => 'Mot de passe'),
+                'second_options' => array('label' => 'Répéter le mot de passe'),
                 'invalid_message' => 'Les champs doivent correspondre',
                 'label' => 'Mot de passe'
             ))
@@ -41,6 +41,7 @@ class InscriptionType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => User::class,
+            'validation_groups' => array('Default', 'registration')
         ));
     }
 }

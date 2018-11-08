@@ -8,17 +8,21 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
 use Twig\Environment;
+use Symfony\Component\Routing\RouterInterface;
+
 
 class AuthentificationResponder extends Responder
 {
     private $flashBag;
     private $urlGenerator;
+    private $router;
 
-    public function __construct(Environment $twig, FlashBagInterface $flashBag, UrlGeneratorInterface $urlGenerator)
+    public function __construct(Environment $twig, FlashBagInterface $flashBag, UrlGeneratorInterface $urlGenerator, RouterInterface $router)
     {
         parent::__construct($twig);
         $this->flashBag = $flashBag;
         $this->urlGenerator = $urlGenerator;
+        $this->router = $router;
 
     }
 
@@ -60,7 +64,53 @@ class AuthentificationResponder extends Responder
 
         catch(\Exception $e)
         {
-            $errorMessage = $e->getMessage();
+            $e->getMessage();
+        }
+
+    }
+
+    Public function forgotPassword($form)
+    {
+        try
+        {
+            return New Response($this->twig->render('authentification/forgotPassword.html.twig', ['form' => $form]));
+        }
+
+        catch(\Exception $e)
+        {
+            $e->getMessage();
+        }
+
+    }
+
+
+    Public function resetPassword($form)
+    {
+        if ($form)
+        {
+            try
+            {
+                return New Response($this->twig->render('authentification/resetPassword.html.twig', ['form' => $form]));
+            }
+            catch (\Exception $e)
+            {
+                $e->getMessage();
+            }
+        }
+
+        return new RedirectResponse($this->router->generate('homepage'));
+    }
+
+    Public function account()
+    {
+        try
+        {
+            return New Response($this->twig->render('authentification/account.html.twig'));
+        }
+
+        catch(\Exception $e)
+        {
+            $e->getMessage();
         }
 
     }

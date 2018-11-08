@@ -76,13 +76,13 @@ class LoginHandler extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        $password = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        $passwordValid = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
 
-        if (!$password)
+        if (!$passwordValid)
         {
             throw new CustomUserMessageAuthenticationException('Mot de passe invalide.');
         }
-        return $password;
+        return $passwordValid;
 
     }
 

@@ -45,7 +45,7 @@ class InscriptionHandler
     {
         //buildForm
         $user = new User();
-        $form = $this->formFactory->create(InscriptionType::class, $user);
+        $form = $this->formFactory->create(InscriptionType::class, $user, array('validation_groups' => array('registration', 'Default')));
 
         // Handle the submit (will only happen on POST)
         $request = Request::createFromGlobals();
@@ -66,7 +66,7 @@ class InscriptionHandler
             //send confirmation message
             $message = (new \Swift_Message('Bienvenue sur SnowTricks '. ucfirst($user->getUsername()) .' !' ))
                 ->setFrom('rouaults11@gmail.com')
-                ->setTo('rrouault11@gmail.com')
+                ->setTo($user->getUserMail())
                 ->setBody(
                     $this->twig->render(
                         'email/inscription.html.twig',
@@ -78,7 +78,7 @@ class InscriptionHandler
             $this->mailer->send($message);
 
             //add a flash message
-            $this->flashBag->add('validation', 'Votre inscription est bien enregistrée! Un e-mail automatique de confirmation vient d\'être envoyé à l\'adresse ' . $user->getEmail() . '.');
+            $this->flashBag->add('validation', 'Votre inscription est bien enregistrée! Un e-mail automatique de confirmation vient d\'être envoyé à l\'adresse ' . $user->getUserMail() . '.');
 
         }
 

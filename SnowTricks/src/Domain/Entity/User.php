@@ -14,8 +14,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(name="app_users")
  * @ORM\Entity(repositoryClass="App\Domain\Repository\UserRepository")
  * @UniqueEntity(
- *     "userMail",
- *     message="Cette adresse email est déjà utilisée")
+ *     fields="userMail",
+ *     message="Cette adresse email est déjà utilisée",
+ *     groups="registration")
  */
 class User implements UserInterface, \Serializable
 {
@@ -31,10 +32,10 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @Assert\NotBlank(message="Merci de compléter ce champ")
+     * @Assert\NotBlank(message="Merci de compléter ce champ", groups="registration")
      * @ORM\Column(type="string", length=255)
      */
-    private $userPseudo;
+    private $userName;
 
     /**
      * @Assert\NotBlank(message="Merci de compléter ce champ")
@@ -49,7 +50,7 @@ class User implements UserInterface, \Serializable
     private $userPass;
 
     /**
-     * @Assert\NotBlank(message="Merci de compléter ce champ")
+     * @Assert\NotBlank(message="Merci de compléter ce champ", groups="registration")
      * @Assert\Length(min=8, minMessage="La longueur de votre mot de passe doit être d'au moins {{ limit }} caractères.", max=4096, maxMessage="La longueur de votre mot de passe ne peut pas excéder {{ limit }} caractères.")
      */
     private $plainPassword;
@@ -92,24 +93,24 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getUsername(): ?string
+    public function getUserName(): ?string
     {
-        return $this->userPseudo;
+        return $this->userName;
     }
 
-    public function setUsername(string $userPseudo): self
+    public function setUserName(string $userName): self
     {
-        $this->userPseudo = $userPseudo;
+        $this->userName = $userName;
 
         return $this;
     }
 
-    public function getEmail(): ?string
+    public function getUserMail(): ?string
     {
         return $this->userMail;
     }
 
-    public function setEmail(string $userMail): self
+    public function setUserMail(string $userMail): self
     {
         $this->userMail = $userMail;
 
@@ -267,7 +268,7 @@ class User implements UserInterface, \Serializable
     {
         return serialize(array(
             $this->id,
-            $this->userPseudo,
+            $this->userName,
             $this->userPass,
         ));
     }
@@ -277,7 +278,7 @@ class User implements UserInterface, \Serializable
     {
         list (
             $this->id,
-            $this->userPseudo,
+            $this->userName,
             $this->userPass,
             ) = unserialize($serialized, ['allowed_classes' => false]);
     }
