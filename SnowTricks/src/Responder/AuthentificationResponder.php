@@ -55,11 +55,11 @@ class AuthentificationResponder extends Responder
         return $http_response_header;
     }
 
-    Public function login($lastUsername, $error)
+    Public function login($form, $error)
     {
         try
         {
-            return New Response($this->twig->render('authentification/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]));
+            return New Response($this->twig->render('authentification/login.html.twig', ['form' => $form, 'error' => $error]));
         }
 
         catch(\Exception $e)
@@ -101,11 +101,11 @@ class AuthentificationResponder extends Responder
         return new RedirectResponse($this->router->generate('homepage'));
     }
 
-    Public function account()
+    Public function account($forms = array())
     {
         try
         {
-            return New Response($this->twig->render('authentification/account.html.twig'));
+            return New Response($this->twig->render('authentification/account.html.twig', ['forms' => $forms]));
         }
 
         catch(\Exception $e)

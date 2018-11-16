@@ -18,6 +18,8 @@ use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
+use Symfony\Component\Form\FormFactoryInterface;
+use App\Domain\Form\FormType\LoginType;
 
 class LoginHandler extends AbstractFormLoginAuthenticator
 {
@@ -27,13 +29,15 @@ class LoginHandler extends AbstractFormLoginAuthenticator
     private $router;
     private $csrfTokenManager;
     private $passwordEncoder;
+    private $formFactory;
 
-    public function __construct(EntityManagerInterface $entityManager, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(EntityManagerInterface $entityManager, RouterInterface $router, CsrfTokenManagerInterface $csrfTokenManager, UserPasswordEncoderInterface $passwordEncoder, FormFactoryInterface $formFactory)
     {
         $this->entityManager = $entityManager;
         $this->router = $router;
         $this->csrfTokenManager = $csrfTokenManager;
         $this->passwordEncoder = $passwordEncoder;
+        $this->formFactory = $formFactory;
     }
 
     public function supports(Request $request)
@@ -47,7 +51,7 @@ class LoginHandler extends AbstractFormLoginAuthenticator
         $credentials = [
             'userMail' => $request->request->get('userMail'),
             'password' => $request->request->get('password'),
-            'csrf_token' => $request->request->get('_csrf_token'),
+            'csrf_token' => $request->request->get('csrf_token'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -99,4 +103,14 @@ class LoginHandler extends AbstractFormLoginAuthenticator
     {
         return $this->router->generate('login');
     }
+
+    public function buildForm($lastUserName)
+    {
+        //buildForm and return view
+        $user = new User();
+        $form = $this->formFactory->create(LoginType::class, $user, array('lastUserName' => $lastUserName));
+        return $form->createView();
+    }
+
+
 }

@@ -3,6 +3,7 @@
 
 namespace App\Action\Authentification;
 
+use App\Domain\Form\FormHandler\LoginHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -15,14 +16,14 @@ class LoginAction
     /**
      * @Route("/login", name="login")
      */
-    public function __invoke(AuthenticationUtils $authenticationUtils, AuthentificationResponder $authentificationResponder): Response
+    public function __invoke(AuthenticationUtils $authenticationUtils, AuthentificationResponder $authentificationResponder, LoginHandler $loginHandler): Response
     {
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+       $lastUsername = $authenticationUtils->getLastUsername();
+       // get last authentication errors
+        $error = $authenticationUtils->getLastAuthenticationError();
 
-        return $authentificationResponder->login($lastUsername, $error);
+        return $authentificationResponder->login($loginHandler->buildForm($lastUsername), $error);
     }
 
 }

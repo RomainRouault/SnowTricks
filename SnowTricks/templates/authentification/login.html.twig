@@ -1,32 +1,29 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
-
 {% block body %}
-<form method="post">
+
+    <h1>Se connecter:</h1>
+    {{ form_start(form) }}
+
+    {{ form_row(form.userMail, {'full_name':'userMail'}) }}
+
+    {{ form_row(form.password, {'full_name':'password'}) }}
+
+    <input type="checkbox" id="remember_me" name="_remember_me" checked />
+    <label for="remember_me">Se souvenir de moi</label>
+
+    <input type="hidden" name="csrf_token" value="{{csrf_token('authenticate') }}"
+    >
+
     {% if error %}
         <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
     {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputUserMail" class="sr-only">User Mail</label>
-    <input type="text" value="{{ last_username }}" name="userMail" id="inputUserMail" class="form-control" placeholder="User Mail" required autofocus>
-    <label for="inputPassword" class="sr-only">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
+    {{ form_rest(form) }}
 
-    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"
-    >
+    {{ form_end(form) }}
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
+    <a href="{{ path('inscription') }}">S'inscrire</a>
+    <a href="{{ path ('forgotPassword') }}">Mot de passe oublié?</a>
 
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
-
-    <a href="{{ path ('forgotPassword')}}">Mot de passe oublié?</a>
 {% endblock %}

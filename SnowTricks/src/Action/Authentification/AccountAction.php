@@ -3,6 +3,7 @@
 
 namespace App\Action\Authentification;
 
+use App\Domain\Form\FormHandler\UpdateUserHandler;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -16,8 +17,8 @@ class AccountAction
      * @IsGranted("ROLE_USER")
      *
      */
-    public function __invoke(AuthentificationResponder $authentificationResponder): Response
+    public function __invoke(AuthentificationResponder $authentificationResponder, UpdateUserHandler $updateUserHandler): Response
     {
-        return $authentificationResponder->account();
+        return $authentificationResponder->account($updateUserHandler->buildUpdateForms());
     }
 }

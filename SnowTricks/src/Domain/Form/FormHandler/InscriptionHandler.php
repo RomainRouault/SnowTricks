@@ -55,7 +55,7 @@ class InscriptionHandler
         {
             //Encode the password
             $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
-            $user->setUserPass($password);
+            $user->setPassword($password);
 
             //create a token (for inscription confirmation)
             $user->initiateToken();

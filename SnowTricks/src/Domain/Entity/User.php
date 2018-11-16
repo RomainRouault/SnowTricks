@@ -38,7 +38,7 @@ class User implements UserInterface, \Serializable
     private $userName;
 
     /**
-     * @Assert\NotBlank(message="Merci de compléter ce champ")
+     * @Assert\NotBlank(message="Merci de compléter ce champ", groups="login")
      * @Assert\Email(message="L'adresse email {{ value }} n'est pas valide")
      * @ORM\Column(type="string", length=255, unique=true)
      */
@@ -57,6 +57,13 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\Image(
+     *     mimeTypes = {"image/jpg", "image/jpeg", "image/png"}, mimeTypesMessage="Format d'image autorisée : jpeg, png",
+     *     maxSize = "5M", maxSizeMessage="Taille maximum de l'image : 5mo ",
+     *     minHeight = "100", minHeightMessage="L'image est trop courte. Valeur minimum : 100 pixels",
+     *     minWidth="100", minWidthMessage="L'image n'est pas assez large. Valeur minimum : 100 pixels",
+     *     groups="update"
+     * )
      */
     private $userPhoto = self::DEFAULT_PIC;
 
@@ -122,7 +129,7 @@ class User implements UserInterface, \Serializable
         return $this->userPass;
     }
 
-    public function setUserPass(string $userPass): self
+    public function setPassword(string $userPass): self
     {
         $this->userPass = $userPass;
 
@@ -139,12 +146,12 @@ class User implements UserInterface, \Serializable
         $this->plainPassword = $password;
     }
 
-    public function getUserPhoto(): ?string
+    public function getUserPhoto()
     {
         return $this->userPhoto;
     }
 
-    public function setUserPhoto(string $userPhoto): self
+    public function setUserPhoto($userPhoto): self
     {
         $this->userPhoto = $userPhoto;
 

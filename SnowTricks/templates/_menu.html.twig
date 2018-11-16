@@ -20,6 +20,7 @@
                         <li><a href="{{ path('login') }}">Connexion</a></li>
                         <li><a href="{{ path('inscription') }}">Inscription</a></li>
                     {% else %}
+                        <li><a href="{{ path('account') }}">Compte</a></li>
                         <li><a href="{{ path('logout') }}">Se déconnecter</a></li>
                     {% endif %}
                 </ul>

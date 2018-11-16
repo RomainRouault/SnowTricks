@@ -8,7 +8,11 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        {% block body %}
+            {% block nav %}{% endblock %}
+            {% block footer %}{% endblock %}
+            {% block modal %}{% endblock %}
+        {% endblock %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
             <div class="flash-notice-{{ label }}">

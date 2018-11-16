@@ -19,11 +19,11 @@ class InscriptionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('userMail', EmailType::class, array(
-                'label' => 'Email'
-            ))
             ->add('userName', TextType::class, array(
                 'label' => 'Pseudonyme'
+            ))
+            ->add('userMail', EmailType::class, array(
+                'label' => 'Email'
             ))
             ->add('plainPassword', RepeatedType::class, array(
                 'type' => PasswordType::class,
@@ -32,7 +32,9 @@ class InscriptionType extends AbstractType
                 'invalid_message' => 'Les champs doivent correspondre',
                 'label' => 'Mot de passe'
             ))
-            ->add('S\'inscrire', SubmitType::class)
+            ->add('Subscribe', SubmitType::class, array(
+                'label' => "Créer un compte"
+            ))
             ->getForm()
         ;
     }
