@@ -22,7 +22,7 @@ class UpdateUserMailType extends AbstractType
                 'label' => 'Email',
             ))
             ->add('Register', SubmitType::class, array(
-                'label' => 'Enregister'
+                'label' => 'Modifier'
             ))
             ->getForm();
         ;
@@ -32,7 +32,7 @@ class UpdateUserMailType extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => User::class,
-            'validation_groups' => array('Default', 'update')
+            'validation_groups' => array('Default')
         ));
     }
 

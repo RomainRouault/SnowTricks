@@ -12,23 +12,15 @@ use App\Domain\Form\FormHandler\InscriptionHandler;
 
 class InscriptionConfirmationAction
 {
-    private $authentificationResponder;
-    private $inscriptionHandler;
 
-    public function __construct(AuthentificationResponder $authentificationResponder, InscriptionHandler $inscriptionHandler)
-    {
-        $this->authentificationResponder = $authentificationResponder;
-        $this->inscriptionHandler = $inscriptionHandler;
-    }
 
     /**
      * @Route("/InscriptionConfirmation", name="InscriptionConfirmation")
      *
      */
-    public function __invoke(): Response
+    public function __invoke(AuthentificationResponder $authentificationResponder, InscriptionHandler $inscriptionHandler, Request $request): Response
     {
-        $request = Request::createFromGlobals();
-        return $this->authentificationResponder->inscriptionConfirmation($this->inscriptionHandler->handleInscriptionConfirmation($request->query->get('token')));
+        return $authentificationResponder->mailConfirmation($inscriptionHandler->handleInscriptionConfirmation($request->query->get('token')));
     }
 
 }

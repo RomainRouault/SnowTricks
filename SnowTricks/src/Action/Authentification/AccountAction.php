@@ -19,6 +19,6 @@ class AccountAction
      */
     public function __invoke(AuthentificationResponder $authentificationResponder, UpdateUserHandler $updateUserHandler): Response
     {
-        return $authentificationResponder->account($updateUserHandler->buildUpdateForms());
+        return $authentificationResponder->account($updateUserHandler->buildUpdateForms(), $updateUserHandler->buildUserRelatedData());
     }
 }

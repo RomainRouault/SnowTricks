@@ -39,22 +39,6 @@ class AuthentificationResponder extends Responder
 
     }
 
-    Public function inscriptionConfirmation($confirmation)
-    {
-        if ($confirmation)
-        {
-            $this->flashBag->add('validation', 'Inscription terminée, vous pouvez maintenant profitez de toute les fonctionnalités du site en vous rendant sur "connexion".');
-        }
-
-        else
-        {
-            $this->flashBag->add('error', 'Cet email a déjà été validé.');
-        }
-        $url = $this->urlGenerator->generate('homepage');
-        $http_response_header = new RedirectResponse($url);
-        return $http_response_header;
-    }
-
     Public function login($form, $error)
     {
         try
@@ -101,11 +85,11 @@ class AuthentificationResponder extends Responder
         return new RedirectResponse($this->router->generate('homepage'));
     }
 
-    Public function account($forms = array())
+    Public function account($forms = array(), $relatedData = array())
     {
         try
         {
-            return New Response($this->twig->render('authentification/account.html.twig', ['forms' => $forms]));
+            return New Response($this->twig->render('authentification/account.html.twig', ['forms' => $forms, 'data' => $relatedData]));
         }
 
         catch(\Exception $e)
@@ -114,5 +98,24 @@ class AuthentificationResponder extends Responder
         }
 
     }
+
+    public function mailConfirmation(array $confirmation)
+    {
+        if ($confirmation['success'] == true)
+        {
+            $this->flashBag->add('validation', $confirmation['message']);
+        }
+
+        else
+        {
+            $this->flashBag->add('error', $confirmation['message']);
+        }
+
+        $url = $this->urlGenerator->generate('homepage');
+        $http_response_header = new RedirectResponse($url);
+        return $http_response_header;
+
+    }
+
 
 }

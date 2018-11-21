@@ -102,10 +102,12 @@ class InscriptionHandler
             $user->setUserConfirmed(true);
             $user->setToken(null);
             $this->userRepository->persistUser($user);
-            return true;
+            $message = 'Inscription terminée, vous pouvez maintenant profitez de toutes les fonctionnalités du site en vous rendant sur "connexion".';
+            return array('success' => true, 'message' => $message);
         }
         //else token is not available; throw a flash message
-        return false;
+        $message = 'Adresse email déjà validée';
+        return array ('success' => false, 'message' => $message);
 
     }
 

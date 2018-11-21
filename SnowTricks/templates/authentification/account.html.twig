@@ -4,10 +4,32 @@
 
 {% block body %}
     <h1>Compte:</h1>
+    {# display the forms #}
+    <div>
+        {{ form_start(forms['userPhoto']) }}
+        <label for="update_user_mail_userMail" class="required">Votre photo :</label>
+        <img src="{{ asset('build/images/users/' ~ app.user.userPhoto) }}">
 
-    {% for form in forms %}
-        {{ form_start(form) }}
-        {{ form_end(form) }}
+        {{ form_end(forms['userPhoto']) }}
+    </div>
+
+    <div>
+        {{ form_start(forms['userMail']) }}
+        {{ form_end(forms['userMail']) }}
+    </div>
+
+    <div>
+        {{ form_start(forms['userPass']) }}
+
+        {{ form_end(forms['userPass']) }}
+    </div>
+
+
+    {# display the relative data #}
+    {% for items in data %}
+        {% for item in items %}
+            {{ dump(item) }}
+        {% endfor %}
     {% endfor %}
 
 

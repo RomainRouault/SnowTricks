@@ -16,7 +16,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @UniqueEntity(
  *     fields="userMail",
  *     message="Cette adresse email est déjà utilisée",
- *     groups="registration")
+ *     groups="registration, update")
  */
 class User implements UserInterface, \Serializable
 {

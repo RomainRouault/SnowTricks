@@ -117,7 +117,7 @@ class ResetPasswordHandler
 
                 //Encode new password password
                 $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
-                $user->setUserPass($password);
+                $user->setPassword($password);
 
                 //erase token
                 $user->setToken(NULL);

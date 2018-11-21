@@ -19,10 +19,12 @@ class UpdateUserPhotoType extends AbstractType
     {
         $builder
             ->add('userPhoto', FileType::class, array(
-                'label' => "Votre photo",
+                'label' => false,
                 'data_class' => null
             ))
-            ->add('Sauvegarder', SubmitType::class)
+            ->add('Save', SubmitType::class, array(
+                'label' => 'Sauvegarder'
+            ))
             ->getForm();
     }
 

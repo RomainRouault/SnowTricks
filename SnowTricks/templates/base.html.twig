@@ -8,8 +8,8 @@
         {% endblock %}
     </head>
     <body>
+        {{ include('layout/_menu.html.twig') }}
         {% block body %}
-            {% block nav %}{% endblock %}
             {% block footer %}{% endblock %}
             {% block modal %}{% endblock %}
         {% endblock %}
