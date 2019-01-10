@@ -4,6 +4,7 @@ namespace App\Domain\Repository;
 
 use App\Domain\Entity\Trick;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\DBALException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -26,6 +27,7 @@ class TrickRepository extends ServiceEntityRepository
         /** TO DO */
     }
 
+
 //    /**
 //     * @return Trick[] Returns an array of Trick objects
 //     */
@@ -43,15 +45,23 @@ class TrickRepository extends ServiceEntityRepository
     }
     */
 
-    /*
-    public function findOneBySomeField($value): ?Trick
+    public function findOneBySomeField($field, $value): ?Trick
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        try {
+            return $this->createQueryBuilder('t')
+                ->andWhere('t.'. $field .' = :val')
+                ->setParameter('val', $value)
+                ->getQuery()
+                ->getOneOrNullResult();
+        }
+        catch(DBALException $e)
+            {
+                $errorMessage = $e->getMessage();
+            }
+        catch(\Exception $e)
+            {
+                $errorMessage = $e->getMessage();
+            }
+
     }
-    */
 }

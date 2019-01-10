@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+
+    <div class="example-wrapper">
+
+        <ul>
+            <li>{{ trickDetails.trickName }}</li>
+            <li>{{ trickDetails.trickDescription }}</li>
+                <ul>
+                    {% for comment in trickDetails.comments %}
+                    <li>{{ comment.commentContent }}</li>
+                    <li>Posté à : {{ comment.commentCreation|date('H \\h i') }}</li>
+                    {% endfor %}
+                </ul>
+            </ul>
+
+        </ul>
+    </div>
+
+{% endblock %}

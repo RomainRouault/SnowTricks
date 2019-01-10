@@ -7,7 +7,7 @@
 
         <ul>
                 {% for trick in trickList %}
-                    <li><strong>Name :</strong>{{ trick.trickName }}</li>
+                    <li><h2><a href="{{ path('trickPage', {'slug': trick.trickName|replace({' ':'-'})}) }}">{{ trick.trickName }}</a></h2></li>
                     <li><strong>Description :</strong>{{ trick.trickDescription }}</li>
                     <li><strong>Creation :</strong>{{ trick.trickCreation|date('d-m-Y') }}</li>
                     <li><strong>Author :</strong> {{ trick.user.Username }}</li>

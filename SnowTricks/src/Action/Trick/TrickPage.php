@@ -1,6 +1,7 @@
 <?php
 
-namespace App\Action;
+
+namespace App\Action\Trick;
 
 use App\Domain\Repository\TrickRepository;
 use App\Responder\TrickResponder;
@@ -8,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 
-class TrickListAction
+class TrickPage
 {
     private $trickResponder;
     private $trickRepository;
@@ -20,12 +21,12 @@ class TrickListAction
     }
 
     /**
-     * @Route("/", methods={"GET"}, name="homepage")
+     * @Route("trick/{slug}", methods={"GET"}, name="trickPage")
      *
      */
-    public function __invoke(): Response
+    public function __invoke($slug): Response
     {
-        return $this->trickResponder->trickListView($this->trickRepository->getTrickList());
+        return $this->trickResponder->trickDetailsView($this->trickRepository->findOneBySomeField('slug', $slug));
     }
 
 }

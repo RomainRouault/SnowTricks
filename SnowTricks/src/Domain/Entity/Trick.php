@@ -2,6 +2,7 @@
 
 namespace App\Domain\Entity;
 
+use App\Domain\Tools\SlugTrait;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -11,6 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Trick
 {
+    use SlugTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -37,6 +40,12 @@ class Trick
      * @ORM\Column(type="time", nullable=true)
      */
     private $trickUpdate;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $trickSlug;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Entity\User", inversedBy="tricks")
@@ -238,7 +247,22 @@ class Trick
 
     public function setTrickName(string $trickName): self
     {
+        $this->setTrickSlug($trickName);
+
         $this->trickName = $trickName;
+
+        return $this;
+    }
+
+    public function getTrickSlug(): ?string
+    {
+        return $this->trickDescription;
+    }
+
+    public function setTrickSlug(string $trickName): self
+    {
+
+        $this->trickSlug = $this->slugify($trickName);
 
         return $this;
     }

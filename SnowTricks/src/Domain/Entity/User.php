@@ -73,7 +73,7 @@ class User implements UserInterface, \Serializable
     private $userConfirmed = self::STATUS_DISABLED;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $token;
 
@@ -177,12 +177,10 @@ class User implements UserInterface, \Serializable
     public function getToken(): ?string
     {
         return $this->token;
-
     }
 
     public function setToken($token)
     {
-
         $this->token = $token;
     }
 
@@ -190,7 +188,7 @@ class User implements UserInterface, \Serializable
     {
         $token = bin2hex(random_bytes(32));
 
-        $this->token = $token;
+        return $this->token = $token;
     }
 
 

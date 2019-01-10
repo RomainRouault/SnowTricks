@@ -37,10 +37,10 @@ class Fixtures extends Fixture
         for ($i = 1; $i < 6; $i++) {
             //create 5 users
             $user = new User;
-            $user->setUserPseudo('User' . $i);
+            $user->setUserName('User' . $i);
             $user->setUserMail('User' . $i . '@mail.com');
             $password = $this->encoder->encodePassword($user, 'Pass' . $i);
-            $user->setUserPass($password);
+            $user->setPassword($password);
             $user->setUserPhoto('default-profil.jpg');
             $user->setUserConfirmed(true);
 
