@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Domain\Image;
+namespace App\Domain\Tools\Image;
 
 
 class ThumbnailGenerator

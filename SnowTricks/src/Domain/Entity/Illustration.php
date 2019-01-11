@@ -24,7 +24,12 @@ class Illustration
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $illustrationUrl;
+    private $illustrationOriginalFilename;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $illustrationThumbnailFilename;
 
     /**
      * @ORM\Column(type="boolean")
@@ -53,14 +58,25 @@ class Illustration
         return $this;
     }
 
-    public function getIllustrationUrl(): ?string
+    public function getIllustrationOriginalFilename(): ?string
     {
-        return $this->illustrationUrl;
+        return $this->illustrationOriginalFilename;
     }
 
-    public function setIllustrationUrl(string $illustrationUrl): self
+    public function setIllustrationOriginalFilename(string $illustrationOriginalFilename): self
     {
-        $this->illustrationUrl = $illustrationUrl;
+        $this->illustrationOriginalFilename = $illustrationOriginalFilename;
+
+        return $this;
+    }
+    public function getIllustrationThumbnailFilename(): ?string
+    {
+        return $this->illustrationThumbnailFilename;
+    }
+
+    public function setIllustrationThumbnailFilename(string $illustrationThumbnailFilename): self
+    {
+        $this->illustrationThumbnailFilename = $illustrationThumbnailFilename;
 
         return $this;
     }

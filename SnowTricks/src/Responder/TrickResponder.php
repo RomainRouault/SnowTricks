@@ -9,7 +9,7 @@ class TrickResponder extends Responder
 
     public function trickListView(array $trickList = []): Response
     {
-        return new Response($this->twig->render('trick_list.html.twig', array('trickList' => $trickList)));
+        return new Response($this->twig->render('trick/trick_list.html.twig', array('trickList' => $trickList)));
     }
 
     public function trickDetailsView($trickDetails): Response

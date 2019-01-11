@@ -7,8 +7,28 @@
 
         <h2>{{ trickDetails.trickName }}</h2>
         <span>Créé le : {{ trickDetails.trickCreation|date('d/m/Y') }}</span> par <span> {{ trickDetails.user.userName }}</span>
-        {% if trickDetails.trickUpdate is not null %}<span>Mis à jour le : {{ trickDetails.trickCreation|date('d/m/y') }} par <span></span></span>{% endif %}
+        {% if trickDetails.trickUpdate is not null %}<span>Dernière mise à jour: {{ trickDetails.trickCreation|date('d/m/y') }}{% endif %}
         <p>{{ trickDetails.trickDescription }}</p>
+        <p>{{ trickDetails.category.categoryName }}</p>
+
+        <div>
+            {% for illustration in trickDetails.illustration %}
+                <img src="{{ asset('build/images/trick/thumbnail/' ~ illustration.illustrationThumbnailFilename) }}">
+            {% endfor %}
+
+            {% for video in trickDetails.video %}
+                <iframe width="560" height="315"
+                src="
+                {% if video.videoPlatform == "youtube" %}https://www.youtube.com/embed/{{ video.videoUrl }}{% endif %}
+                {% if video.videoPlatform == "dailymotion" %}https://www.dailymotion.com/embed/video/{{ video.videoUrl }}{% endif %}
+                {% if video.videoPlatform == "vimeo" %}https://player.vimeo.com/video/{{ video.videoUrl }}{% endif %}
+                "
+
+                frameborder="0" allow="accelerometer; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                </iframe>
+            {% endfor %}
+        </div>
+
 
         <h3>Commentaires :</h3>
         <ul>

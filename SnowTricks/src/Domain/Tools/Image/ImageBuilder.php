@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\Image;
+namespace App\Domain\Tools\Image;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;

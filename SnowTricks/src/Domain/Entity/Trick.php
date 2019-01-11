@@ -61,24 +61,24 @@ class Trick
     /**
      * @ORM\OneToMany(targetEntity="App\Domain\Entity\Video", mappedBy="trick")
      */
-    private $videos;
+    private $video;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Domain\Entity\Illustration", mappedBy="trick")
      */
-    private $illustrations;
+    private $illustration;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Domain\Entity\Comment", mappedBy="trick", orphanRemoval=true)
      */
-    private $comments;
+    private $comment;
 
 
     public function __construct()
     {
-        $this->videos = new ArrayCollection();
-        $this->illustrations = new ArrayCollection();
-        $this->comments = new ArrayCollection();
+        $this->video = new ArrayCollection();
+        $this->illustration = new ArrayCollection();
+        $this->comment = new ArrayCollection();
     }
 
 
@@ -150,15 +150,15 @@ class Trick
     /**
      * @return Collection|Video[]
      */
-    public function getVideos(): Collection
+    public function getVideo(): Collection
     {
-        return $this->videos;
+        return $this->video;
     }
 
     public function addVideo(Video $video): self
     {
-        if (!$this->videos->contains($video)) {
-            $this->videos[] = $video;
+        if (!$this->video->contains($video)) {
+            $this->video[] = $video;
             $video->setTrick($this);
         }
 
@@ -167,8 +167,8 @@ class Trick
 
     public function removeVideo(Video $video): self
     {
-        if ($this->videos->contains($video)) {
-            $this->videos->removeElement($video);
+        if ($this->video->contains($video)) {
+            $this->video->removeElement($video);
             // set the owning side to null (unless already changed)
             if ($video->getTrick() === $this) {
                 $video->setTrick(null);
@@ -181,15 +181,15 @@ class Trick
     /**
      * @return Collection|Illustration[]
      */
-    public function getIllustrations(): Collection
+    public function getIllustration(): Collection
     {
-        return $this->illustrations;
+        return $this->illustration;
     }
 
     public function addIllustration(Illustration $illustration): self
     {
-        if (!$this->illustrations->contains($illustration)) {
-            $this->illustrations[] = $illustration;
+        if (!$this->illustration->contains($illustration)) {
+            $this->illustration[] = $illustration;
             $illustration->setTrick($this);
         }
 
@@ -198,8 +198,8 @@ class Trick
 
     public function removeIllustration(Illustration $illustration): self
     {
-        if ($this->illustrations->contains($illustration)) {
-            $this->illustrations->removeElement($illustration);
+        if ($this->illustration->contains($illustration)) {
+            $this->illustration->removeElement($illustration);
             // set the owning side to null (unless already changed)
             if ($illustration->getTrick() === $this) {
                 $illustration->setTrick(null);
@@ -214,13 +214,13 @@ class Trick
      */
     public function getComments(): Collection
     {
-        return $this->comments;
+        return $this->comment;
     }
 
     public function addComment(Comment $comment): self
     {
-        if (!$this->comments->contains($comment)) {
-            $this->comments[] = $comment;
+        if (!$this->comment->contains($comment)) {
+            $this->comment[] = $comment;
             $comment->setTrick($this);
         }
 
@@ -229,8 +229,8 @@ class Trick
 
     public function removeComment(Comment $comment): self
     {
-        if ($this->comments->contains($comment)) {
-            $this->comments->removeElement($comment);
+        if ($this->comment->contains($comment)) {
+            $this->comment->removeElement($comment);
             // set the owning side to null (unless already changed)
             if ($comment->getTrick() === $this) {
                 $comment->setTrick(null);

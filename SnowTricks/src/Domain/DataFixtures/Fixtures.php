@@ -73,15 +73,17 @@ class Fixtures extends Fixture
             $video = new Video();
             $video->setVideoName($trick->getTrickName() . '-Video');
             //pick a random video
-            $videos = array('https://youtu.be/CzDjM7h_Fwo', 'https://youtu.be/ejWLQXRJ7Qw', 'https://youtu.be/2vXns5BJ__U');
+            $videos = array('CzDjM7h_Fwo', 'ejWLQXRJ7Qw', '2vXns5BJ__U');
             $rand = array_rand($videos, 1);
             $video->setVideoUrl($videos[$rand]);
+            $video->setVideoPlatform('youtube');
             $video->setTrick($trick);
 
             // create 5 illustration
             $illustration = new Illustration();
             $illustration->setIllustrationName($trick->getTrickName() . '-Illustration');
-            $illustration->setIllustrationUrl('illustration' . $i . '.jpg');
+            $illustration->setIllustrationOriginalFilename('illustration' . $i . '.jpg');
+            $illustration->setIllustrationThumbnailFilename('thumbnail-illustration' . $i . '.jpg');
             $illustration->setIllustrationIsMain(true);
             $illustration->setTrick($trick);
 

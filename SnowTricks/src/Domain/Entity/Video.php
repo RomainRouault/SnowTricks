@@ -27,6 +27,11 @@ class Video
     private $videoUrl;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $videoPlatform;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="videos")
      */
     private $trick;
@@ -59,6 +64,19 @@ class Video
 
         return $this;
     }
+
+    public function getVideoPlatform(): ?string
+    {
+        return $this->videoPlatform;
+    }
+
+    public function setVideoPlatform(string $videoPlatform): self
+    {
+        $this->videoPlatform = $videoPlatform;
+
+        return $this;
+    }
+
 
     public function getTrick(): ?Trick
     {
