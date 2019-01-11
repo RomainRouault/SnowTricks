@@ -167,7 +167,7 @@ class UpdateUserHandler
             ->setTo($this->currentUser->getUserMail())
             ->setBody(
                 $this->twig->render(
-                    'email/updateMail.html.twig',
+                    'update_mail.html.twig',
                     array('token' => $this->currentUser->getToken())
                 ),
                 'text/html'

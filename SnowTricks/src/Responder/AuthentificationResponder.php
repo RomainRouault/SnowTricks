@@ -3,28 +3,11 @@
 
 namespace App\Responder;
 
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
-use Twig\Environment;
-use Symfony\Component\Routing\RouterInterface;
 
 
 class AuthentificationResponder extends Responder
 {
-    private $flashBag;
-    private $urlGenerator;
-    private $router;
-
-    public function __construct(Environment $twig, FlashBagInterface $flashBag, UrlGeneratorInterface $urlGenerator, RouterInterface $router)
-    {
-        parent::__construct($twig);
-        $this->flashBag = $flashBag;
-        $this->urlGenerator = $urlGenerator;
-        $this->router = $router;
-
-    }
 
     Public function inscription($form): Response
     {
@@ -57,7 +40,7 @@ class AuthentificationResponder extends Responder
     {
         try
         {
-            return New Response($this->twig->render('authentification/forgotPassword.html.twig', ['form' => $form]));
+            return New Response($this->twig->render('forgot_password.html.twig', ['form' => $form]));
         }
 
         catch(\Exception $e)
@@ -74,7 +57,7 @@ class AuthentificationResponder extends Responder
         {
             try
             {
-                return New Response($this->twig->render('authentification/resetPassword.html.twig', ['form' => $form]));
+                return New Response($this->twig->render('reset_password.html.twig', ['form' => $form]));
             }
             catch (\Exception $e)
             {
@@ -82,7 +65,7 @@ class AuthentificationResponder extends Responder
             }
         }
 
-        return new RedirectResponse($this->router->generate('homepage'));
+        return $this->redirectToHomePage();
     }
 
     Public function account($forms = array(), $relatedData = array())
@@ -111,9 +94,7 @@ class AuthentificationResponder extends Responder
             $this->flashBag->add('error', $confirmation['message']);
         }
 
-        $url = $this->urlGenerator->generate('homepage');
-        $http_response_header = new RedirectResponse($url);
-        return $http_response_header;
+        return $this->redirectToHomePage();
 
     }
 

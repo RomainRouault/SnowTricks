@@ -9,7 +9,6 @@
                 {% for trick in trickList %}
                     <li><h2><a href="{{ path('trickPage', {'slug': trick.trickName|replace({' ':'-'})}) }}">{{ trick.trickName }}</a></h2></li>
                     <li><strong>Description :</strong>{{ trick.trickDescription }}</li>
-                    <li><strong>Creation :</strong>{{ trick.trickCreation|date('d-m-Y') }}</li>
                     <li><strong>Author :</strong> {{ trick.user.Username }}</li>
                     <li><strong>Category :</strong> {{ trick.category.categoryName }} </li>
                     {% for comment in trick.comments %}

@@ -3,20 +3,24 @@
 
 {% block body %}
 
-    <div class="example-wrapper">
+    <main>
 
+        <h2>{{ trickDetails.trickName }}</h2>
+        <span>Créé le : {{ trickDetails.trickCreation|date('d/m/Y') }}</span> par <span> {{ trickDetails.user.userName }}</span>
+        {% if trickDetails.trickUpdate is not null %}<span>Mis à jour le : {{ trickDetails.trickCreation|date('d/m/y') }} par <span></span></span>{% endif %}
+        <p>{{ trickDetails.trickDescription }}</p>
+
+        <h3>Commentaires :</h3>
         <ul>
-            <li>{{ trickDetails.trickName }}</li>
-            <li>{{ trickDetails.trickDescription }}</li>
-                <ul>
-                    {% for comment in trickDetails.comments %}
-                    <li>{{ comment.commentContent }}</li>
-                    <li>Posté à : {{ comment.commentCreation|date('H \\h i') }}</li>
-                    {% endfor %}
-                </ul>
-            </ul>
-
+            {% for comment in trickDetails.comments %}
+                <li>
+                    <header>Auteur : {{ comment.user.userName }}</header>
+                    <p> {{ comment.commentContent }} </p>
+                    <footer>Posté le : {{ comment.commentCreation|date('d/m/Y') }}</footer>
+                </li>
+            {% endfor %}
         </ul>
-    </div>
+
+    </main>
 
 {% endblock %}

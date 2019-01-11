@@ -22,7 +22,7 @@ class Comment
     private $commentContent;
 
     /**
-     * @ORM\Column(type="time")
+     * @ORM\Column(type="datetime")
      */
     private $commentCreation;
 

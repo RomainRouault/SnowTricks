@@ -26,7 +26,7 @@ class TrickPage
      */
     public function __invoke($slug): Response
     {
-        return $this->trickResponder->trickDetailsView($this->trickRepository->findOneBySomeField('slug', $slug));
+        return $this->trickResponder->trickDetailsView($this->trickRepository->findOneBySomeField('trickSlug', $slug));
     }
 
 }

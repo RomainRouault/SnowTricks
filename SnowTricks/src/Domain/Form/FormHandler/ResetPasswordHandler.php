@@ -67,7 +67,7 @@ class ResetPasswordHandler
                         ->setTo($user->getUserMail())
                         ->setBody(
                             $this->twig->render(
-                                'email/resetPassword.html.twig',
+                                'reset_password.html.twig',
                                 array('userName' => $user->getUsername(), 'token' => $user->getToken())
                             ),
                             'text/html'
