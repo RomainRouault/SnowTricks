@@ -6,6 +6,7 @@ namespace App\Domain\Form\FormHandler;
 
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
+use App\Domain\Tools\Mailer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use App\Domain\Form\FormType\ForgotPasswordType;
@@ -22,7 +23,7 @@ class ResetPasswordHandler
     private $twig;
     private $passwordEncoder;
 
-    public function __construct(FormFactoryInterface $formFactory, UserRepository $userRepository,  \Swift_Mailer $mailer, \Twig_Environment $twig, FlashBagInterface $flashBag, UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(FormFactoryInterface $formFactory, UserRepository $userRepository,  Mailer $mailer, \Twig_Environment $twig, FlashBagInterface $flashBag, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->formFactory = $formFactory;
         $this->userRepository = $userRepository;
@@ -61,25 +62,26 @@ class ResetPasswordHandler
                 $this->userRepository->persistUser($user);
 
                 //send confirmation message
-                try {
-                    $message = (new \Swift_Message('Réinitialisation de votre mot de passe'))
-                        ->setFrom('rouaults11@gmail.com')
-                        ->setTo($user->getUserMail())
-                        ->setBody(
-                            $this->twig->render(
-                                'reset_password.html.twig',
-                                array('userName' => $user->getUsername(), 'token' => $user->getToken())
-                            ),
-                            'text/html'
-                        );
-                } catch (\Exception $e) {
-                    $e->getMessage();
+                $messageBody = $this->twig->render(
+                    'reset_password.html.twig',
+                    array('userName' => $user->getUsername(), 'token' => $user->getToken())
+                );
+                if ($this->mailer->sendMail(
+                    $user->getUserMail(),
+                    'Réinitialisation de votre mot de passe',
+                    $messageBody
+                )){
+                    $this->flashBag->add(
+                        'validation',
+                        'Votre demande a bien été enregistrée! Un e-mail vient d\'être envoyé à l\'adresse ' . $user->getUserMail() . '.');
+                }
+                else{
+                    $this->flashBag->add(
+                        'error',
+                        'Échec de l\'envoi du message de réinitialisation à l\'adresse ' . $user->getUserMail() . '. Merci de contacter ' . $this->mailer::SENDER_EMAIL_ADRESS . ''
+                    );
                 }
 
-                $this->mailer->send($message);
-
-                //add a flash message
-                $this->flashBag->add('validation', 'Votre demande a bien été enregistrée! Un e-mail vient d\'être envoyé à l\'adresse ' . $user->getUserMail() . '.');
             }
 
             else

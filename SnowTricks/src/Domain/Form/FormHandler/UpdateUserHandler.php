@@ -10,6 +10,7 @@ use App\Domain\Form\Model\ChangePassword;
 use App\Domain\Tools\Image\ImageBuilder;
 use App\Domain\Tools\Image\ThumbnailGenerator;
 use App\Domain\Repository\UserRepository;
+use App\Domain\Tools\Mailer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -43,7 +44,7 @@ class UpdateUserHandler
         Filesystem $filesystem,
         FlashBagInterface $flashBag,
         RouterInterface $router,
-        \Swift_Mailer $mailer,
+        Mailer $mailer,
         \Twig_Environment $twig,
         ImageBuilder $imageBuilder,
         ThumbnailGenerator $thumbnailGenerator,
@@ -162,23 +163,26 @@ class UpdateUserHandler
         $this->userRepository->persistUser($this->currentUser);
 
         //send confirmation message
-        $message = (new \Swift_Message('Confirmation de votre nouvel email' ))
-            ->setFrom('rouaults11@gmail.com')
-            ->setTo($this->currentUser->getUserMail())
-            ->setBody(
-                $this->twig->render(
-                    'update_mail.html.twig',
-                    array('token' => $this->currentUser->getToken())
-                ),
-                'text/html'
+        $messageBody =  $this->twig->render(
+                'update_mail.html.twig',
+                array('token' => $this->currentUser->getToken())
             );
 
-        $this->mailer->send($message);
+       if( $this->mailer->sendMail(
+          $this->currentUser->getUserMail(),
+          'Confirmation de votre nouvel email',
+            $messageBody
+        )){
+           $this->flashBag->add('validation', 'Un e-mail vient d\'être envoyé à l\'adresse ' . $this->currentUser->getUserMail() . ' pour confirmation.');
+       }
 
-        //add a flash message
-        $this->flashBag->add('validation', 'Un e-mail vient d\'être envoyé à l\'adresse ' . $this->currentUser->getUserMail() . ' pour confirmation.');
+       else{
+           $this->flashBag->add(
+               'error',
+               'Échec de l\'envoi du message de confirmation à l\'adresse ' . $user->getUserMail() . '. Merci de contacter ' . $this->mailer::SENDER_EMAIL_ADRESS . ''
+           );
 
-
+       }
     }
 
     public function handleMailUpdateConfirmation($token)

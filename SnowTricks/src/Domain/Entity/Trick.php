@@ -2,7 +2,7 @@
 
 namespace App\Domain\Entity;
 
-use App\Domain\Tools\SlugTrait;
+use App\Domain\Tools\Slug;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,8 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Trick
 {
-    use SlugTrait;
-
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -261,8 +259,8 @@ class Trick
 
     public function setTrickSlug(string $trickName): self
     {
-
-        $this->trickSlug = $this->slugify($trickName);
+        $slugTool = new Slug();
+        $this->trickSlug = $slugTool::slugify($trickName);
 
         return $this;
     }

@@ -4,9 +4,9 @@
 namespace App\Domain\Tools;
 
 
-trait SlugTrait
+class Slug
 {
-    public function slugify($text)
+    public static function slugify($text): ?string
     {
         // replace non letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);

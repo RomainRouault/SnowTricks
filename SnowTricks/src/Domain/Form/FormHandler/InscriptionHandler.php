@@ -6,6 +6,7 @@ namespace App\Domain\Form\FormHandler;
 use App\Domain\Entity\User;
 use App\Domain\Repository\UserRepository;
 use App\Domain\Form\FormType\InscriptionType;
+use App\Domain\Tools\Mailer;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\RouterInterface;
@@ -23,7 +24,7 @@ class InscriptionHandler
     private $mailer;
     private $twig;
 
-    public function __construct(UserRepository $userRepository, FormFactoryInterface $formFactory, UserPasswordEncoderInterface $passwordEncoder, FlashBagInterface $flashBag, ValidatorInterface $validator, RouterInterface $router, \Swift_Mailer $mailer, \Twig_Environment $twig)
+    public function __construct(UserRepository $userRepository, FormFactoryInterface $formFactory, UserPasswordEncoderInterface $passwordEncoder, FlashBagInterface $flashBag, ValidatorInterface $validator, RouterInterface $router, Mailer $mailer, \Twig_Environment $twig)
     {
         $this->userRepository = $userRepository;
         $this->formFactory = $formFactory;
@@ -45,7 +46,7 @@ class InscriptionHandler
     {
         //buildForm
         $user = new User();
-        $form = $this->formFactory->create(InscriptionType::class, $user, array('validation_groups' => array('registration', 'Default')));
+        $form = $this->formFactory->create(InscriptionType::class, $user);
 
         // Handle the submit (will only happen on POST)
         $request = Request::createFromGlobals();
@@ -53,32 +54,35 @@ class InscriptionHandler
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            //Encode the password
             $password = $this->passwordEncoder->encodePassword($user, $user->getPlainPassword());
             $user->setPassword($password);
 
-            //create a token (for inscription confirmation)
             $user->initiateToken();
 
-            //persist new user
             $this->userRepository->persistUser($user);
 
             //send confirmation message
-            $message = (new \Swift_Message('Bienvenue sur SnowTricks '. ucfirst($user->getUsername()) .' !' ))
-                ->setFrom('rouaults11@gmail.com')
-                ->setTo($user->getUserMail())
-                ->setBody(
-                    $this->twig->render(
-                        'email/inscription.html.twig',
-                        array('userName' => $user->getUsername(), 'token' => $user->getToken())
-                    ),
-                    'text/html'
+            $emailSubject = 'Bienvenue sur SnowTricks '. ucfirst($user->getUsername()) .' !';
+            $emailBody = $this->twig->render(
+                'email/inscription.html.twig', array('userName' => $user->getUsername(), 'token' => $user->getToken())
+            );
+
+            if ($this->mailer->sendMail($user->getUserMail(), $emailSubject, $emailBody)) {
+                //add a flash message
+                $this->flashBag->add(
+                    'validation',
+                    'Votre inscription est bien enregistrée! Un e-mail automatique de confirmation vient d\'être envoyé à l\'adresse ' . $user->getUserMail() . '.'
+                );
+            }
+
+            else{
+                $this->flashBag->add(
+                    'error',
+                    'Inscription en attente: Échec de l\'envoi du message à l\'adresse ' . $user->getUserMail() . '. Merci de contacter ' . $this->mailer::SENDER_EMAIL_ADRESS . ''
                 );
 
-            $this->mailer->send($message);
+            }
 
-            //add a flash message
-            $this->flashBag->add('validation', 'Votre inscription est bien enregistrée! Un e-mail automatique de confirmation vient d\'être envoyé à l\'adresse ' . $user->getUserMail() . '.');
 
         }
 
