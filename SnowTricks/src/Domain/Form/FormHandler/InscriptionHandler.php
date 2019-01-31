@@ -82,8 +82,6 @@ class InscriptionHandler
                 );
 
             }
-
-
         }
 
         //If no request submited // invalid form, return the view

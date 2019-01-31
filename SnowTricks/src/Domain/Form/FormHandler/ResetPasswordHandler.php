@@ -136,6 +136,7 @@ class ResetPasswordHandler
 
             //If no request submited // invalid form, return the view
             $formView = $form->createView();
+
             return $formView;
 
         }

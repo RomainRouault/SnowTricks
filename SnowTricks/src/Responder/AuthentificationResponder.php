@@ -40,7 +40,7 @@ class AuthentificationResponder extends Responder
     {
         try
         {
-            return New Response($this->twig->render('forgot_password.html.twig', ['form' => $form]));
+            return New Response($this->twig->render('authentification/forgot_password.html.twig', ['form' => $form]));
         }
 
         catch(\Exception $e)
@@ -57,7 +57,7 @@ class AuthentificationResponder extends Responder
         {
             try
             {
-                return New Response($this->twig->render('reset_password.html.twig', ['form' => $form]));
+                return New Response($this->twig->render('authentification/reset_password.html.twig', ['form' => $form]));
             }
             catch (\Exception $e)
             {

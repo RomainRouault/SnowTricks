@@ -1,15 +1,16 @@
 <?php
 
+
 namespace App\Action\Trick;
 
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
-class TrickListAction extends TrickAction
+class TrickPageAddTrickAction extends TrickAction
 {
 
     /**
-     * @Route("/", methods={"GET"}, name="homepage")
+     * @Route("/ajout-", methods={"GET"}, name="homepage")
      *
      */
     public function __invoke(): Response

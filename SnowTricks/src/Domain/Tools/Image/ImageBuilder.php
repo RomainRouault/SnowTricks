@@ -22,17 +22,7 @@ class ImageBuilder
 
     public function upload(UploadedFile $file, $fileName)
     {
-
-        try
-        {
-            $file->move($this->getTargetDirectory(), $fileName);
-        }
-
-        catch (FileException $e)
-        {
-            throw $e;
-        }
-
+        $file->move($this->getTargetDirectory(), $fileName);
         return $fileName;
     }
 

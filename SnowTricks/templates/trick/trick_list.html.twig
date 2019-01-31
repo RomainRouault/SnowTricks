@@ -7,14 +7,18 @@
 
         <ul>
                 {% for trick in trickList %}
-                    <li><h2><a href="{{ path('trickPage', {'slug': trick.trickName|replace({' ':'-'})}) }}">{{ trick.trickName }}</a></h2></li>
-                    <li><strong>Description :</strong>{{ trick.trickDescription }}</li>
-                    <li><strong>Author :</strong> {{ trick.user.Username }}</li>
-                    <li><strong>Category :</strong> {{ trick.category.categoryName }} </li>
+                    <ul class="trickContent">
+                        <li><h2><a href="{{ path('trickPage', {'slug': trick.trickName|replace({' ':'-'})}) }}">{{ trick.trickName }}</a></h2></li>
+                        <li><strong>Description :</strong>{{ trick.trickDescription }}</li>
+                        <li><strong>Author :</strong> {{ trick.user.Username }}</li>
+                        <li><strong>Category :</strong> {{ trick.category.categoryName }} </li>
+                    </ul>
                     {% for comment in trick.comments %}
+                        <ul class="trickComment">
                             <li><strong>Comment :</strong>
                                 {{ comment.commentContent }}
                             </li>
+                        </ul>
                     {% endfor %}
                     <br/>
                 {% endfor %}

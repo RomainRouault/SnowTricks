@@ -254,7 +254,7 @@ class Trick
 
     public function getTrickSlug(): ?string
     {
-        return $this->trickDescription;
+        return $this->trickSlug;
     }
 
     public function setTrickSlug(string $trickName): self

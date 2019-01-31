@@ -37,7 +37,7 @@ class Illustration
     private $illustrationIsMain;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="illustrations")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="illustration")
      */
     private $trick;
 

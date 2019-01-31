@@ -32,7 +32,7 @@ class Video
     private $videoPlatform;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="videos")
+     * @ORM\ManyToOne(targetEntity="App\Domain\Entity\Trick", inversedBy="video")
      */
     private $trick;
 

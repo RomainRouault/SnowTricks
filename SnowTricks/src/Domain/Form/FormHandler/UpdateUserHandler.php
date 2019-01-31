@@ -140,9 +140,11 @@ class UpdateUserHandler
         $this->thumbnailGenerator->build($photo, $this->targetDirectoryUserPhoto, $photoName, $photoExtension, $this->userPhotoThumbnailMaxWidth, $this->userPhotoThumbnailMaxHeight);
 
         //remove previous photo file
-        $oldPhotoPath = $this->targetDirectoryUserPhoto . '/' . $oldPhoto;
-        $this->fileSystem->remove($oldPhotoPath);
-
+        if ($oldPhoto != 'default-profil.jpg')
+        {
+            $oldPhotoPath = $this->targetDirectoryUserPhoto . '/' . $oldPhoto;
+            $this->fileSystem->remove($oldPhotoPath);
+        }
         // get the complete name of the photo
         $finalName = $photoName. '.' .$photoExtension;
         //set change and persist in DB
